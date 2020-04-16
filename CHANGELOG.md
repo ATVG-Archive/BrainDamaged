@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Program counter starts at 4096 making space for 4096 stack variables (about 15 kb)
+- Jump instructions (JMP, JNE, JE) now take a 32-bit int as argument
 
 ## [0.2.0] - 2020-04-16
 ### Added

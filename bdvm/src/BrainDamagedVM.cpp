@@ -124,24 +124,47 @@ void BrainDamagedVM::doPrimitive() {
             if(debug) {
                 std::cout << "JE" << std::endl;
             }
-            i = memory[sp];
-            j = memory[sp+1];
-            sp-=2;
-            if(i == 1) {
-                pc += j;
+            j = memory[sp];
+            sp--;
+
+            i = memory[pc+1];
+            i32 type;
+            type = getType(i);
+            if(type != 0 && type != 2) {
+                std::cerr << "BrainDamagedVM:: Cannot jump to non-integer relative location" << std::endl;
+                running = 0;
+                break;
+            }
+            pc++;
+
+            if(debug) {
+                std::printf("CON: %d; SKIP: %d", j, i);
+            }
+
+            if(j == 1) {
+                pc += i;
             }
             break;
         case 11: // JNE
             if(debug) {
                 std::cout << "JNE" << std::endl;
             }
-            i = memory[sp];
-            sp--;
             j = memory[sp];
             sp--;
+
+            i = memory[pc+1];
+            type = getType(i);
+            if(type != 0 && type != 2) {
+                std::cerr << "BrainDamagedVM:: Cannot jump to non-integer relative location" << std::endl;
+                running = 0;
+                break;
+            }
+            pc++;
+
             if(debug) {
                 std::printf("CON: %d; SKIP: %d", j, i);
             }
+
             if(j == 0) {
                 pc += i;
             }
@@ -175,9 +198,21 @@ void BrainDamagedVM::doPrimitive() {
             memory[sp]--;
             break;
         case 17: // JMP
-            i = memory[sp];
-            sp--;
-            pc+=i;
+            if(debug) {
+                std::cout << "JMP" << std::endl;
+            }
+
+            i = memory[pc+1];
+            type = getType(i);
+            if(type != 0 && type != 2) {
+                std::cerr << "BrainDamagedVM:: Cannot jump to non-integer relative location" << std::endl;
+                running = 0;
+                break;
+            }
+            pc++;
+
+            // Jump
+            pc += i;
             break;
         case 18: // SPI
             sp++;
