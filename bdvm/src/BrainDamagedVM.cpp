@@ -222,6 +222,80 @@ void BrainDamagedVM::doPrimitive() {
                 }
             }
             break;
+        case 85: // RSW
+            try {
+                char buf[IN_BYTE_MAX];
+                for(char & b : buf) {
+                    b = 0;
+                }
+                fgets(buf, IN_BYTE_MAX, stdin);
+
+                i32 c;
+
+                sp++;
+                memory[sp] = TXT_BEGIN;
+
+                for(i = 2; i < IN_BYTE_MAX; i+=3) {
+                    if(i-2 <= IN_BYTE_MAX) {
+                        a = buf[i-2];
+                    } else {
+                        a = 0x00;
+                    }
+                    if(i-1 <= IN_BYTE_MAX) {
+                        b = buf[i-1];
+                    } else {
+                        b = 0x00;
+                    }
+                    if(i <= IN_BYTE_MAX) {
+                        c = buf[i];
+                    } else {
+                        c = 0x00;
+                    }
+
+                    sp++;
+                    memory[sp] = packChars(a, b, c);
+
+                    if(a == NEW_LINE || b == NEW_LINE || c == NEW_LINE) {
+                        sp++;
+                        memory[sp] = TXT_END;
+                        break;
+                    }
+                }
+            } catch (std::exception &e) {
+                if(debug) {
+                    std::cout << e.what() << std::endl;
+                }
+            }
+            break;
+        case 86: // PSW
+            i = memory[sp];
+            sp--;
+            if(i == TXT_END) {
+                std::string buf;
+                while(memory[sp] != TXT_BEGIN) {
+                    a = 0; b = 0; i32 c = 0;
+
+                    unpackChars(memory[sp], a, b, c);
+                    sp--;
+
+                    if(debug) {
+                        printf("%04d: %08x, %08x, %08x\n", sp, a, b, c);
+                    }
+
+                    buf.push_back((char)c);
+                    buf.push_back((char)b);
+                    buf.push_back((char)a);
+                }
+
+                std::string out;
+
+                for(i = buf.size(); i > 0; i--) {
+                    out.push_back(buf[i]);
+                }
+
+                std::cout << out;
+            }
+            break;
     }
 }
 
@@ -241,4 +315,17 @@ void BrainDamagedVM::loadProgram(std::vector<i32> prog) {
     for (i32 i = 0; i < prog.size(); i++) {
         memory[pc + i] = prog[i];
     }
+}
+
+i32 BrainDamagedVM::packChars(const i32 c1, const i32 c2, const i32 c3) {
+    i32 i = (c1 << 16);
+    i = i | (c2 << 8);
+    i = i | c3;
+    return i;
+}
+
+void BrainDamagedVM::unpackChars(const i32 i, i32& c1, i32& c2, i32& c3) {
+    c1 = (i >> 16) & 0xFF;
+    c2 = (i >> 8) & 0xFF;
+    c3 = i & 0xFF;
 }

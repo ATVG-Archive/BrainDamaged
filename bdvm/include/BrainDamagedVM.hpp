@@ -7,11 +7,18 @@
 
 #include <iostream>
 #include <vector>
+#include <stdio.h>
 
 #include "Bytecode.hpp"
 #include "Types.hpp"
 
 #define PC_BEGIN 4096
+#define IN_BYTE_MAX 1024
+
+#define TXT_BEGIN 0x00000002
+#define TXT_END 0x00000003
+#define NEW_LINE 0x0000000a
+
 class BrainDamagedVM {
     i32 pc = PC_BEGIN;
     i32 sp = 0;
@@ -29,6 +36,9 @@ class BrainDamagedVM {
     void decode();
     void execute();
     void doPrimitive();
+
+    i32 packChars(const i32 c1, const i32 c2, const i32 c3);
+    void unpackChars(const i32 i, i32& c1, i32& c2, i32& c3);
 
 public:
     BrainDamagedVM();

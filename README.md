@@ -51,6 +51,8 @@ Version: 0.2.0
 | PSC | 0x40000052 | Prints tos as ASCII Char to stdout | POPs tos (sp--) | 0.1.0 |
 | RSI | 0x40000053 | Reads from stdout to tos as Int | Puts to tos (sp++) | 0.1.0 |
 | RSC | 0x40000054 | Reads from stdout to tos as ASCII Char | Puts to tos (sp++) | 0.1.0 |
+| RSW | 0x40000055 | Reads from stdin to stack as ASCII until end of line (Max 1024 bytes) | Puts to tos (sp += in bytes / 3) | 0.3.0 |
+| PSW | 0x40000056 | Prints to stdout from stack in reverse as ASCII | POPs from tos (sp -= (in bytes / 3) + 2) | 0.3.0 |
 
 ### Disclaimer
 **Please dont expect this to work. This is the first Bytecode Compiler and Bytecode VM I wrote in C++.**
