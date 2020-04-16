@@ -186,15 +186,24 @@ void BrainDamagedVM::doPrimitive() {
             sp--;
             break;
         case 14: // SWP
+            if(debug) {
+                std::cout << "SWP" << std::endl;
+            }
             a = memory[sp-1];
             b = memory[sp];
             memory[sp-1] = b;
             memory[sp] = a;
             break;
         case 15: // INC
+            if(debug) {
+                std::cout << "INC" << std::endl;
+            }
             memory[sp]++;
             break;
         case 16: // DEC
+            if(debug) {
+                std::cout << "DEC" << std::endl;
+            }
             memory[sp]--;
             break;
         case 17: // JMP
@@ -213,14 +222,24 @@ void BrainDamagedVM::doPrimitive() {
 
             // Jump
             pc += i;
+
             break;
         case 18: // SPI
+            if(debug) {
+                std::cout << "SPI" << std::endl;
+            }
             sp++;
             break;
         case 19: // SPD
+            if(debug) {
+                std::cout << "SPD" << std::endl;
+            }
             sp--;
             break;
         case 20: // SPC
+            if(debug) {
+                std::cout << "SPC" << std::endl;
+            }
             for(i = PC_BEGIN; i > 0; i--) {
                 if(memory[i] != 0x00000000) {
                     sp = i;
@@ -273,6 +292,9 @@ void BrainDamagedVM::doPrimitive() {
             }
             break;
         case 85: // RSW
+            if(debug) {
+                std::cout << "RSW" << std::endl;
+            }
             try {
                 char buf[IN_BYTE_MAX];
                 for(char & b : buf) {
@@ -318,6 +340,9 @@ void BrainDamagedVM::doPrimitive() {
             }
             break;
         case 86: // PSW
+            if(debug) {
+                std::cout << "PSW" << std::endl;
+            }
             i = memory[sp];
             sp--;
             if(i == TXT_END) {
