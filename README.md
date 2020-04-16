@@ -39,14 +39,14 @@ Version: 0.3.0
 | MUL | 0x40000007 | - | Multiplies two numbers | POPs twice (sp-2), puts result on tos (sp++) | 0.1.0 |
 | DIV | 0x40000008 | - | Divides two numbers | POPs twice (sp-2), puts result on tos (sp++) | 0.1.0 |
 | DUP | 0x40000009 | - | Duplicates top of stack | Copies top of stack into tos (sp++) | 0.1.0 |
-| JE  | 0x4000000A | 1 | Skips `x` instructions when tos is 1 | POPs twice (sp-2), adds sp to pc | 0.1.0/0.3.0 |
-| JNE | 0x4000000B | 1 | Skips `x` instructions when tos is 0 | POPs twice (sp-2), adds sp to pc | 0.1.0/0.3.0 |
+| JE  | 0x4000000A | 1 | Skips `x` instructions when tos is 1 | POPs once (sp--) | 0.1.0/0.3.0 |
+| JNE | 0x4000000B | 1 | Skips `x` instructions when tos is 0 | POPs once (sp--) | 0.1.0/0.3.0 |
 | CMP | 0x4000000C | - | Compares two values and puts 0 or 1 | POPs twice (sp-2), puts result on tos (sp++) | 0.1.0 |
 | POP | 0x4000000D | - | Removes from tos | POPs once (sp--) | 0.1.0 |
 | SWP | 0x4000000E | - | Switches tos | POPs twice (sp-2), puts both switched to stack (sp+2) | 0.1.0 |
 | INC | 0x4000000F | - | Increments tos | - | 0.2.0 |
 | DEC | 0x40000010 | - | Decrements tos | - | 0.2.0 |
-| JMP | 0x40000011 | 1 | Skips `x` instructions | POPs once (sp--), adds sp to pc | 0.2.0/0.3.0 |
+| JMP | 0x40000011 | 1 | Skips `x` instructions | - | 0.2.0/0.3.0 |
 | SPI | 0x40000012 | - | Increments sp | (sp++) | 0.3.0 |
 | SPD | 0x40000013 | - | Decrements sp | (sp--) | 0.3.0 |
 | SPC | 0x40000014 | - | Resets sp | (sp = first non-null location from end of stack) | 0.3.0 |
