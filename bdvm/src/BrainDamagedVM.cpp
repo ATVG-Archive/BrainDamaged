@@ -45,6 +45,7 @@ void BrainDamagedVM::doPrimitive() {
     if(debug || dat == 2) {
         std::printf("\n%04d: %04x\n", pc-PC_BEGIN, dat);
     }
+    i32 i, j;
     switch (dat) {
         case 0: // hlt
             if(debug) {
@@ -65,16 +66,18 @@ void BrainDamagedVM::doPrimitive() {
             break;
         case 3: // ddm
             if(debug) {
-                std::printf("Dumping Memory:\n");
+                std::printf("Printing Memory Dump.\nSP=%d\nPC=%d\nStack:\n", sp, pc);
                 i32 line;
                 line = 0;
                 for(i32 i = 0; i < PC_BEGIN; i++) {
-                    if(line < 8) {
-                        line++;
-                        std::printf("%04d = %08x\t", i, memory[i]);
-                    } else if(line == 8) {
-                        std::printf("%04d = %08x\n", i, memory[i]);
-                        line = 0;
+                    if(memory[i] != 0x00000000) {
+                        if(line < 8) {
+                            line++;
+                            std::printf("%04d = %08x\t", i, memory[i]);
+                        } else if(line == 8) {
+                            std::printf("%04d = %08x\n", i, memory[i]);
+                            line = 0;
+                        }
                     }
                 }
             }
