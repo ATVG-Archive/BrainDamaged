@@ -3,5 +3,6 @@ project(BrainDamaged)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(BrainDamagedVM bdvm/src/Main.cpp bdvm/include/BrainDamagedVM.hpp bdvm/src/BrainDamagedVM.cpp bdvm/include/Bytecode.hpp bdvm/include/Types.hpp)
-add_executable(BrainFuckCompiler bfc/src/Main.cpp bfc/src/BrainFuckCompiler.cpp bfc/include/Types.hpp bfc/include/BrainFuckCompiler.hpp)
+add_executable(BrainDamagedVM bdvm/src/Main.cpp bdvm/include/BrainDamagedVM.hpp bdvm/include/Bytecode.hpp bdvm/include/Types.hpp bdvm/src/BrainDamagedVM.cpp)
+add_executable(BrainDamagedAssembler bdasm/src/Main.cpp bdasm/src/BrainDamagedAssembler.cpp bdasm/include/BrainDamagedAssembler.hpp)
+add_executable(BrainFuckCompiler bfc/src/Main.cpp bfc/src/BrainFuckCompiler.cpp bfc/include/BrainFuckCompiler.hpp)
