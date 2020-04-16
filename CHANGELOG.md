@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Program counter starts at 4096 making space for 4096 stack variables (about 15 kb)
+
 ## [0.2.0] - 2020-04-16
 ### Added
 - Instruction: INC - Increments value at stack pointer

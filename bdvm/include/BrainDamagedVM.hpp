@@ -11,8 +11,9 @@
 #include "Bytecode.hpp"
 #include "Types.hpp"
 
+#define PC_BEGIN 4096
 class BrainDamagedVM {
-    i32 pc = 100;
+    i32 pc = PC_BEGIN;
     i32 sp = 0;
     std::vector<i32> memory;
     i32 typ = 0;

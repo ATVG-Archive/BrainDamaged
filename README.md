@@ -10,6 +10,16 @@ BrainDamaged is a project that builds the multiple Projects.
 Location: `bdvm/`  
 Version: 0.2.0
 
+## Architecture
+
+* All Instructions are 32-Bit.
+* Maximum Stack size is 4096 variables (4096 * 30 bits)
+* Maximum Program size is 995_904 instructions
+
++ This VM has a Memory size from at least 4 MB.
+  * ~15.36 KB are addressable Stack memory
+  * ~3.983 MB are program code memory
+
 ## Instruction Set
 
 * pc = Program Counter (Current executing Instruction)

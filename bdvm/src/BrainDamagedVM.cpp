@@ -40,7 +40,7 @@ void BrainDamagedVM::execute() {
 
 void BrainDamagedVM::doPrimitive() {
     if(debug || dat == 2) {
-        std::printf("\n%04d: %04x\n", pc-100, dat);
+        std::printf("\n%04d: %04x\n", pc-PC_BEGIN, dat);
     }
     switch (dat) {
         case 0: // hlt
