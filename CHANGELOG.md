@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2020-04-16
 ### Added
 - Instruction: DDM - Debug Dump Memory displays a hex memory dump when DBG is enabled
 - Instruction: RSW - Read Stack Wide reads from stdin until a end of line was given
