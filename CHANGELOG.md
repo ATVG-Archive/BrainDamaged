@@ -17,3 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2020-04-16
 ### Added
 - First Implementation of BrainDamagedVM
+
+# BrainFuckCompiler
+
+## [Unreleased]
+### Added
+- Tried to do a first implementation (It is more complicated then though xD)
