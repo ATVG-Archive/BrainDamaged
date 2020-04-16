@@ -113,7 +113,6 @@ void BrainDamagedVM::doPrimitive() {
             if(debug) {
                 std::cout << "DUP" << std::endl;
             }
-            i32 i;
             i = memory[sp];
             sp++;
             memory[sp] = i;
@@ -123,7 +122,6 @@ void BrainDamagedVM::doPrimitive() {
                 std::cout << "JE" << std::endl;
             }
             i = memory[sp];
-            i32 j;
             j = memory[sp+1];
             sp-=2;
             if(i == 1) {
