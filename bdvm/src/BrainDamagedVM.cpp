@@ -178,6 +178,20 @@ void BrainDamagedVM::doPrimitive() {
             sp--;
             pc+=i;
             break;
+        case 18: // SPI
+            sp++;
+            break;
+        case 19: // SPD
+            sp--;
+            break;
+        case 20: // SPC
+            for(i = PC_BEGIN; i > 0; i--) {
+                if(memory[i] != 0x00000000) {
+                    sp = i;
+                    break;
+                }
+            }
+            break;
         case 81: // psi (Print Stack Integer)
             if(debug) {
                 std::cout << "PSI" << std::endl;

@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Instruction: DDM - Debug Dump Memory displays a hex memory dump when DBG is enabled
 - Instruction: RSW - Read Stack Wide reads from stdin until a end of line was given
 - Instruction: PSW - Print Stack Wide prints a string if sp is txt_end (0x03) and a txt_begin is found (0x02) (txt_begin and txt_end are from ASCII)
+- Instruction: SPI - Stack Pointer Increment, increments the SP by 1
+- Instruction: SPD - Stack Pointer Decrement, decrements the SP by 1
+- Instruction: SPC - Stack Pointer Clear, Sets SP to the first spot from the back of stack memory (4096) which is not null
+
 ### Changed
 - Program counter starts at 4096 making space for 4096 stack variables (about 15 kb)
 
