@@ -7,15 +7,25 @@
 
 #include <vector>
 #include <string>
+#include <fstream>
+#include <iostream>
+#include <libgen.h>
+
 #include "../../bdvm/include/Types.hpp"
 
 class BrainFuckCompiler {
+    std::string source;
     std::vector<i32> instructions;
-
-    BrainFuckCompiler();
+    std::string outFilename;
+    bool bdExtensions = false;
 
 public:
-    std::vector<i32> compile(const std::string code);
+    void loadFile(std::string filename);
+    i32 compile();
+    void writeFile();
+    void setBDExtensions(const bool value) {
+        bdExtensions = value;
+    }
 };
 
 #endif //BRAINDAMAGED_BRAINFUCKCOMPILER_HPP

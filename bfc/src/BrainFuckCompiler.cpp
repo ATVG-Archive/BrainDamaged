@@ -5,39 +5,60 @@
 #include "../include/BrainFuckCompiler.hpp"
 #include "../../bdvm/include/Bytecode.hpp"
 
-BrainFuckCompiler::BrainFuckCompiler() {
+void BrainFuckCompiler::loadFile(std::string filename) {
+    std::ifstream infile(filename);
+
+    for(std::string line; getline(infile, line);) {
+        source += line;
+    }
+
+    if(filename.ends_with(".bf")) {
+        outFilename = filename.replace(filename.find(".bf"), 3, ".bdc");
+    } else {
+        outFilename = filename + ".bdc";
+    }
 }
 
-std::vector<i32> BrainFuckCompiler::compile(const std::string code) {
-    i32 brace = 0;
-    std::vector<i32> braceCounts;
-    for(char i : code) {
-        if(brace > 0) {
-            braceCounts[brace]++;
-        }
+i32 BrainFuckCompiler::compile() {
+    for(char i : source) {
         switch (i) {
+            case '.':
+                instructions.push_back(PSC);
+                break;
+            case ',':
+                instructions.push_back(RSC);
+                break;
             case '+':
                 instructions.push_back(INC);
-                break;
-            case '[':
-                brace++;
-                break;
-            case ']':
-                i32 icount;
-                icount = braceCounts[brace];
-                braceCounts[brace] = 0;
-
-                brace--;
-
-                instructions.push_back(icount);
-                instructions.push_back(JMP);
-
                 break;
             case '-':
                 instructions.push_back(DEC);
                 break;
+            case '>':
+                instructions.push_back(SPI);
+                break;
+            case '<':
+                instructions.push_back(SPD);
+                break;
+            case '~':
+                if(bdExtensions) {
+                    instructions.push_back(DBG);
+                    instructions.push_back(DDM);
+                }
+                break;
+            default:
+                instructions.push_back(NOP);
+                break;
         }
     }
 
-    return instructions;
+    return 0;
+}
+
+void BrainFuckCompiler::writeFile() {
+    std::ofstream outfile(outFilename, std::ios::out | std::ios::binary);
+    outfile.write((char*)instructions.data(), instructions.size() * sizeof(i32));
+    outfile.close();
+
+    std::cout << "Compiled Assembly to Bytecode. Wrote to file: " << outFilename << std::endl;
 }
