@@ -8,7 +8,7 @@ BrainDamaged is a project that builds the multiple Projects.
 # BrainDamaged VM
 
 Location: `bdvm/`  
-Version: 0.1.0
+Version: 0.2.0
 
 ## Instruction Set
 
@@ -33,6 +33,9 @@ Version: 0.1.0
 | CMP | 0x4000000C | Compares two values and puts 0 or 1 | POPs twice (sp-2), puts result on tos (sp++) | 0.1.0 |
 | POP | 0x4000000D | Removes from tos | POPs once (sp--) | 0.1.0 |
 | SWP | 0x4000000E | Switches tos | POPs twice (sp-2), puts both switched to stack (sp+2) | 0.1.0 |
+| INC | 0x4000000F | Increments tos | - | 0.2.0 |
+| DEC | 0x40000010 | Decrements tos | - | 0.2.0 |
+| JMP | 0x40000011 | Skips `x` instructions | POPs once (sp--), adds sp to pc | 0.2.0 |
 | - | - | - | - |
 | PSI | 0x40000051 | Prints tos as Int to stdout | POPs tos (sp--) | 0.1.0 |
 | PSC | 0x40000052 | Prints tos as ASCII Char to stdout | POPs tos (sp--) | 0.1.0 |

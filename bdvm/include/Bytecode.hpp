@@ -18,6 +18,9 @@
 #define CMP 0x4000000C // Compares SP-1 with SP
 #define POP 0x4000000D
 #define SWP 0x4000000E
+#define INC 0x4000000F
+#define DEC 0x40000010
+#define JMP 0x40000011 // Jumps to SP
 #define PSI 0x40000051
 #define PSC 0x40000052
 #define RSI 0x40000053

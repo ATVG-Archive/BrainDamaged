@@ -150,6 +150,17 @@ void BrainDamagedVM::doPrimitive() {
             memory[sp-1] = b;
             memory[sp] = a;
             break;
+        case 15: // INC
+            memory[sp]++;
+            break;
+        case 16: // DEC
+            memory[sp]--;
+            break;
+        case 17: // JMP
+            i = memory[sp];
+            sp--;
+            pc+=i;
+            break;
         case 81: // psi (Print Stack Integer)
             if(debug) {
                 std::cout << "PSI" << std::endl;

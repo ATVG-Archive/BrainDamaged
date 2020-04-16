@@ -3,6 +3,7 @@
 #include "../include/BrainDamagedVM.hpp"
 
 int main(int argc, char* argv[]) {
+    std::printf("BrainDamagedVM (v0.2.0)\n");
     if(argc != 2) {
         std::printf("Usage: %s <filename>", basename(argv[0]));
         exit(1);
