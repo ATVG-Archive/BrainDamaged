@@ -63,7 +63,21 @@ void BrainDamagedVM::doPrimitive() {
             }
             debug = !debug;
             break;
-        case 3: // nop
+        case 3: // ddm
+            if(debug) {
+                std::printf("Dumping Memory:\n");
+                i32 line;
+                line = 0;
+                for(i32 i = 0; i < PC_BEGIN; i++) {
+                    if(line < 8) {
+                        line++;
+                        std::printf("%04d = %08x\t", i, memory[i]);
+                    } else if(line == 8) {
+                        std::printf("%04d = %08x\n", i, memory[i]);
+                        line = 0;
+                    }
+                }
+            }
             break;
         case 4: // nop
             break;

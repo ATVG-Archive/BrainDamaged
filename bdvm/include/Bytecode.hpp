@@ -8,6 +8,7 @@
 #define HLT 0x40000000
 #define NOP 0x40000001
 #define DBG 0x40000002
+#define DDM 0x40000003 // Only available with DBG enabled
 #define ADD 0x40000005
 #define SUB 0x40000006
 #define MUL 0x40000007

@@ -31,7 +31,7 @@ Version: 0.2.0
 | HLT | 0x40000000 | Halts the VM | - | 0.1.0 |
 | NOP | 0x40000001 | Does Nothing | - | 0.1.0 |
 | DBG | 0x40000002 | Enables Debug loggin of the VM | - | 0.1.0 |
-| - | 0x40000003 | RESERVED | - |
+| DDM | 0x40000003 | Dumps Stack memory when DBG is set, else its nop | - | 0.3.0 |
 | - | 0x40000004 | RESERVED | - |
 | ADD | 0x40000005 | Adds two numbers | POPs twice (sp-2), puts result on tos (sp++) | 0.1.0 |
 | SUB | 0x40000006 | Subtracts two numbers | POPs twice (sp-2), puts result on tos (sp++) | 0.1.0 |

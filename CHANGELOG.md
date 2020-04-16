@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Instruction: DDM - Debug Dump Memory displays a hex memory dump when DBG is enabled
 ### Changed
 - Program counter starts at 4096 making space for 4096 stack variables (about 15 kb)
 
