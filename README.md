@@ -45,6 +45,10 @@ Version: 0.2.0
 ### Disclaimer
 **Please dont expect this to work. This is the first Bytecode Compiler and Bytecode VM I wrote in C++.**
 
+# Attributes
+
+BrainDamaged logo made by [Freepik](https://www.flaticon.com/authors/freepik) from [Flaticon](https://www.flaticon.com/)
+
 # License
 
 Just dont bother. Do with the code what you want, if you event want to touch it ..
