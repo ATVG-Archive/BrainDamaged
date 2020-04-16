@@ -1,4 +1,4 @@
-//
+//void
 // Created by atjontv on 4/15/20.
 //
 
@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <string>
-#include "Types.hpp"
+#include "../../bdvm/include/Types.hpp"
 
 class BrainFuckCompiler {
     std::vector<i32> instructions;
