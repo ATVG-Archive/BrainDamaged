@@ -6,6 +6,9 @@
 
 BrainDamagedVM::BrainDamagedVM() {
     memory.reserve(1000000);
+    for(i32 i = 0; i < PC_BEGIN; i++) {
+        memory[i] = 0;
+    }
 }
 
 i32 BrainDamagedVM::getType(i32 instruction) {
