@@ -5,7 +5,12 @@
 #include "../include/BrainDamagedVM.hpp"
 
 BrainDamagedVM::BrainDamagedVM() {
-    memory.reserve(1000000);
+    // Resize memory to allocate space
+    memory.resize(MEMROY_SIZE);
+    // Make sure the space is reserved
+    memory.reserve(MEMROY_SIZE);
+
+    // Initialize Stack memory with 0 to prevent UB (Undefined Behavior)
     for(i32 i = 0; i < PC_BEGIN; i++) {
         memory[i] = 0;
     }

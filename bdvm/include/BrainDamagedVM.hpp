@@ -16,6 +16,7 @@
 #include "Bytecode.hpp"
 #include "Types.hpp"
 
+#define MEMROY_SIZE 1000000
 #define PC_BEGIN 4096
 #define IN_BYTE_MAX 1024
 
