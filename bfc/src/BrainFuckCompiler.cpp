@@ -40,12 +40,6 @@ i32 BrainFuckCompiler::compile() {
             case '<':
                 instructions.push_back(SPD);
                 break;
-            case '~':
-                if(bdExtensions) {
-                    instructions.push_back(DBG);
-                    instructions.push_back(DDM);
-                }
-                break;
             default:
                 instructions.push_back(NOP);
                 break;

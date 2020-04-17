@@ -63,29 +63,9 @@ void BrainDamagedVM::doPrimitive() {
                 std::cout << "NOP" << std::endl;
             }
             break;
-        case 2: // dbg
-            if(debug) {
-                std::cout << "DBG" << std::endl;
-            }
-            debug = !debug;
+        case 2: // nop
             break;
-        case 3: // ddm
-            if(debug) {
-                std::printf("Printing Memory Dump.\nSP=%d\nPC=%d\nStack:\n", sp, pc);
-                i32 line;
-                line = 0;
-                for(i32 i = 0; i < PC_BEGIN; i++) {
-                    if(memory[i] != 0x00000000) {
-                        if(line < 8) {
-                            line++;
-                            std::printf("%04d = %08x\t", i, memory[i]);
-                        } else if(line == 8) {
-                            std::printf("%04d = %08x\n", i, memory[i]);
-                            line = 0;
-                        }
-                    }
-                }
-            }
+        case 3: // nop
             break;
         case 4: // nop
             break;

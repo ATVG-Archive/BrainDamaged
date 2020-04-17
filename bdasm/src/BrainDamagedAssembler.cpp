@@ -57,8 +57,6 @@ i32 BrainDamagedAssembler::compile() {
         /// No-Parameter 3 Char Bytecode
         INST("HLT", HLT)
         INST("NOP", NOP)
-        INST("DBG", DBG)
-        INST("DDM", DDM)
         INST("ADD", ADD)
         INST("SUB", SUB)
         INST("MUL", MUL)
