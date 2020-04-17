@@ -7,7 +7,12 @@
 int main(int argc, char* argv[]) {
     std::printf("BrainFuckCompiler (v0.1.0)\n");
     if(argc < 2 || argc > 3) {
+    #ifdef linux
         std::printf("Usage: %s [-x] <filename>", basename(argv[0]));
+    #endif
+    #ifdef _WIN32
+        std::printf("Usage: BrainFuckCompiler.exe [-x] <filename>");
+    #endif
         exit(1);
     }
 

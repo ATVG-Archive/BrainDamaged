@@ -60,5 +60,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Tried to do a first implementation (It is more complicated then though xD)
-- We now have the basic commands except for `[]`
-- Optional VM commands with `-x`
+- We now have the basic commands except for `[]` 
+- Optional VM commands with `-x` (Currently no Extensions due to removal of DBG and DDM bytecode)
+- Support for Windows (TODO: Make the Program name output dynamic just like on Linux)
