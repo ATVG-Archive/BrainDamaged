@@ -53,6 +53,9 @@ public:
     BrainDamagedVM();
     void run();
     void loadProgram(std::vector<i32> prog);
+    void setDebug(const bool value) {
+        debug = value;
+    }
 };
 
 #endif //BRAINDAMAGED_BRAINDAMAGEDVM_HPP

@@ -18,7 +18,17 @@ int main(int argc, char* argv[]) {
     try {
         std::ifstream inFile;
         size_t size = 0;
-        inFile.open(argv[1], std::ios::in|std::ios::binary|std::ios::ate);
+
+        // TODO: Remove this
+        if (argc == 3 && std::string(argv[1]) == "-d") {
+            inFile.open(argv[2], std::ios::in | std::ios::binary | std::ios::ate);
+        }
+
+        // TODO: Remove this
+        if (argc == 2 && std::string(argv[1]) != "-d") {
+            inFile.open(argv[1], std::ios::in | std::ios::binary | std::ios::ate);
+        }
+
         i32* rawData = 0;
         inFile.seekg(0, std::ios::end);
         size = inFile.tellg();
@@ -40,6 +50,16 @@ int main(int argc, char* argv[]) {
 
     BrainDamagedVM vm;
     vm.loadProgram(data);
+
+    // TODO: Remove this
+    if (argc == 3 && std::string(argv[1]) == "-d") {
+        vm.setDebug(true);
+    }
+
+    // TODO: Remove this
+    if (argc == 2 && std::string(argv[1]) != "-d") {
+        vm.setDebug(false);
+    }
     vm.run();
 
     return 0;
