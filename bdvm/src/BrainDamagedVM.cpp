@@ -155,6 +155,7 @@ void BrainDamagedVM::doPrimitive() {
 
             // Check if next item on the program stack is a jumpable location
             if(type != 0 && type != 2) {
+                dumpMemory();
                 std::cerr << "BrainDamagedVM:: Cannot jump to non-integer relative location" << std::endl;
                 running = false;
                 break;
@@ -185,6 +186,7 @@ void BrainDamagedVM::doPrimitive() {
 
             // Check if next item on the program stack is a jumpable location
             if(type != 0 && type != 2) {
+                dumpMemory();
                 std::cerr << "BrainDamagedVM:: Cannot jump to non-integer relative location" << std::endl;
                 running = 0;
                 break;
@@ -268,6 +270,7 @@ void BrainDamagedVM::doPrimitive() {
 
             // Check if next item on the program stack is a jumpable location
             if(type != 0 && type != 2) {
+                dumpMemory();
                 std::cerr << "BrainDamagedVM:: Cannot jump to non-integer relative location" << std::endl;
                 running = false;
                 break;
@@ -470,6 +473,27 @@ void BrainDamagedVM::pop(i32 i) {
         memory[sp] = 0;
         sp--;
         i++;
+    }
+}
+
+void BrainDamagedVM::dumpMemory() {
+    if (debug) {
+        std::printf("Printing Memory Dump.\nSP=%d\nPC=%d\nStack:\n", sp, pc);
+        i32 line;
+        line = 0;
+        for (i32 i = 0; i < PC_BEGIN; i++) {
+            if (memory[i] != 0x00000000) {
+                if (line < 8) {
+                    line++;
+                    std::printf("%04d = %08x\t", i, memory[i]);
+                }
+                else if (line == 8) {
+                    std::printf("%04d = %08x\n", i, memory[i]);
+                    line = 0;
+                }
+            }
+        }
+        std::cout << std::endl;
     }
 }
 
