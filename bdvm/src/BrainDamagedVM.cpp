@@ -51,7 +51,7 @@ void BrainDamagedVM::doPrimitive() {
             if(debug) {
                 std::cout << "HLT" << std::endl;
             }
-            running = 0;
+            running = false;
             break;
         case 1: // nop
             if(debug) {
@@ -88,51 +88,90 @@ void BrainDamagedVM::doPrimitive() {
             if(debug) {
                 std::cout << "ADD" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("ADD")) break;
+
+            // Inline Addition
             memory[sp - 1] = memory[sp - 1] + memory[sp];
-            sp--;
+
+            // Drop second number from stack
+            pop(1);
             break;
         case 6: // sub
             if(debug) {
                 std::cout << "SUB" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("SUB")) break;
+
+            // Inline Subtraction
             memory[sp - 1] = memory[sp - 1] - memory[sp];
-            sp--;
+
+            // Drop second number from stack
+            pop(1);
             break;
         case 7: // mul
             if(debug) {
                 std::cout << "MUL" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("MUL")) break;
+
+            // Inline Multiplication
             memory[sp - 1] = memory[sp - 1] * memory[sp];
-            sp--;
+
+            // Drop second number from stack
+            pop(1);
             break;
         case 8: // div
             if(debug) {
                 std::cout << "DIV" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("DIV")) break;
+
+            // Inline Division
             memory[sp - 1] = memory[sp - 1] / memory[sp];
-            sp--;
+
+            // Drop second number from stack
+            pop(1);
             break;
         case 9: // DUP
             if(debug) {
                 std::cout << "DUP" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("DUP")) break;
+
             i = memory[sp];
             sp++;
             memory[sp] = i;
+
             break;
         case 10: // JE
             if(debug) {
                 std::cout << "JE" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("JE")) break;
+
             j = memory[sp];
-            sp--;
+            pop(1);
 
             i = memory[pc+1];
             i32 type;
             type = getType(i);
+
+            // Check if next item on the program stack is a jumpable location
             if(type != 0 && type != 2) {
                 std::cerr << "BrainDamagedVM:: Cannot jump to non-integer relative location" << std::endl;
-                running = 0;
+                running = false;
                 break;
             }
             pc++;
@@ -149,11 +188,17 @@ void BrainDamagedVM::doPrimitive() {
             if(debug) {
                 std::cout << "JNE" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("JNE")) break;
+
             j = memory[sp];
-            sp--;
+            pop(1);
 
             i = memory[pc+1];
             type = getType(i);
+
+            // Check if next item on the program stack is a jumpable location
             if(type != 0 && type != 2) {
                 std::cerr << "BrainDamagedVM:: Cannot jump to non-integer relative location" << std::endl;
                 running = 0;
@@ -173,37 +218,56 @@ void BrainDamagedVM::doPrimitive() {
             if(debug) {
                 std::cout << "CMP" << std::endl;
             }
-            i32 a, b;
-            a = memory[sp-1];
-            b = memory[sp];
-            sp--;
-            memory[sp] = (int)(a == b);
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("CMP")) break;
+
+            i = memory[sp-1];
+            j = memory[sp];
+            pop(1);
+            memory[sp] = (int)(i == j);
             break;
         case 13: // POP
             if(debug) {
                 std::cout << "POP" << std::endl;
             }
-            sp--;
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("POP")) break;
+
+            pop(1);
             break;
         case 14: // SWP
             if(debug) {
                 std::cout << "SWP" << std::endl;
             }
-            a = memory[sp-1];
-            b = memory[sp];
-            memory[sp-1] = b;
-            memory[sp] = a;
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("SWP")) break;
+
+            i = memory[sp-1];
+            j = memory[sp];
+            memory[sp-1] = j;
+            memory[sp] = i;
             break;
         case 15: // INC
             if(debug) {
                 std::cout << "INC" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("INC")) break;
+
             memory[sp]++;
             break;
         case 16: // DEC
             if(debug) {
                 std::cout << "DEC" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("DEC")) break;
+
             memory[sp]--;
             break;
         case 17: // JMP
@@ -211,11 +275,16 @@ void BrainDamagedVM::doPrimitive() {
                 std::cout << "JMP" << std::endl;
             }
 
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("JMP")) break;
+
             i = memory[pc+1];
             type = getType(i);
+
+            // Check if next item on the program stack is a jumpable location
             if(type != 0 && type != 2) {
                 std::cerr << "BrainDamagedVM:: Cannot jump to non-integer relative location" << std::endl;
-                running = 0;
+                running = false;
                 break;
             }
             pc++;
@@ -228,18 +297,27 @@ void BrainDamagedVM::doPrimitive() {
             if(debug) {
                 std::cout << "SPI" << std::endl;
             }
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("SPI")) break;
+
             sp++;
             break;
         case 19: // SPD
             if(debug) {
                 std::cout << "SPD" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("SPD")) break;
+
             sp--;
             break;
         case 20: // SPC
             if(debug) {
                 std::cout << "SPC" << std::endl;
             }
+
+            // Search for the first non-empty item in the stack space
             for(i = PC_BEGIN; i > 0; i--) {
                 if(memory[i] != 0x00000000) {
                     sp = i;
@@ -251,21 +329,32 @@ void BrainDamagedVM::doPrimitive() {
             if(debug) {
                 std::cout << "PSI" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("PSI")) break;
+
             std::cout << memory[sp];
-            sp--;
+            pop(1);
             break;
         case 82: // psc (Print Stack Character)
             if(debug) {
                 std::cout << "PSC" << std::endl;
             }
-            i = memory[sp];
-            sp--;
-            std::cout << (char)i;
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("PSC")) break;
+
+            std::cout << (char) memory[sp];
+            pop(1);
             break;
         case 83: // rsi (Read Stack Integer)
             if(debug) {
                 std::cout << "RSI" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("RSI")) break;
+
             try {
                 scanf(" %d", &i);
                 sp++;
@@ -280,6 +369,10 @@ void BrainDamagedVM::doPrimitive() {
             if(debug) {
                 std::cout << "RSC" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("RSC")) break;
+
             try {
                 char c;
                 scanf(" %c", &c);
@@ -291,10 +384,14 @@ void BrainDamagedVM::doPrimitive() {
                 }
             }
             break;
-        case 85: // RSW
+        case 85: // RSW (Read Stack Wide)
             if(debug) {
                 std::cout << "RSW" << std::endl;
             }
+
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("RSW")) break;
+
             try {
                 char buf[IN_BYTE_MAX];
                 for(char & b : buf) {
@@ -302,7 +399,7 @@ void BrainDamagedVM::doPrimitive() {
                 }
                 fgets(buf, IN_BYTE_MAX, stdin);
 
-                i32 c;
+                i32 a,b,c;
 
                 sp++;
                 memory[sp] = TXT_BEGIN;
@@ -343,15 +440,19 @@ void BrainDamagedVM::doPrimitive() {
             if(debug) {
                 std::cout << "PSW" << std::endl;
             }
+            
+            // Exit VM when SP gets out of bounds
+            if (exitOnInvalidSP("PSW")) break;
+
             i = memory[sp];
-            sp--;
+            pop(1);
             if(i == TXT_END) {
                 std::string buf;
                 while(memory[sp] != TXT_BEGIN) {
-                    a = 0; b = 0; i32 c = 0;
+                    i32 a,b,c;
 
                     unpackChars(memory[sp], a, b, c);
-                    sp--;
+                    pop(1);
 
                     if(debug) {
                         printf("%04d: %08x, %08x, %08x\n", sp, a, b, c);
@@ -374,9 +475,40 @@ void BrainDamagedVM::doPrimitive() {
     }
 }
 
+void BrainDamagedVM::pop(i32 i) {
+    if (sp <= 0) {
+        std::cout << "BrainDamagedVM:: Cannot remove from Stack with SP <= 0" << std::endl;
+        running = false;
+        return;
+    }
+    while (i > 0) {
+        memory[sp] = 0;
+        sp--;
+        i++;
+    }
+}
+
+bool BrainDamagedVM::exitOnInvalidSP(std::string instName) {
+    if (sp <= 0) {
+        dumpMemory();
+        std::printf("BrainDamagedVM:: Cannot perform %s operation with SP <= 0", instName.c_str());
+        running = false;
+        return true;
+    }
+
+    if (sp > (PC_BEGIN-1)) {
+        dumpMemory();
+        std::printf("BrainDamagedVM:: Cannot perform %s operation with SP > %d", instName.c_str(), PC_BEGIN-1);
+        running = false;
+        return true;
+    }
+
+    return false;
+}
+
 void BrainDamagedVM::run() {
     pc -= 1;
-    while (running == 1) {
+    while (running) {
         fetch();
         decode();
         execute();

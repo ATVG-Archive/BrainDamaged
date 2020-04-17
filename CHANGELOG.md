@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Support for Windows (TODO: Make the Program name output dynamic just like on Linux)
+- Safety checks for each Instruction that depends on a SP > 0 < PC_BEGIN
 ## [0.3.0] - 2020-04-16
 ### Added
 - Instruction: DDM - Debug Dump Memory displays a hex memory dump when DBG is enabled
