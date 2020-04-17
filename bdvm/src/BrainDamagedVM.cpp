@@ -306,7 +306,7 @@ void BrainDamagedVM::doPrimitive() {
             }
 
             // Search for the first non-empty item in the stack space
-            for(i = PC_BEGIN; i > 0; i--) {
+            for(i = PC_BEGIN-1; i > 0; i--) {
                 if(memory[i] != 0x00000000) {
                     sp = i;
                     break;
