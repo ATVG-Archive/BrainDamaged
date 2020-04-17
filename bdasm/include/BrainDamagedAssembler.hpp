@@ -9,7 +9,10 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+
+#ifdef linux
 #include <libgen.h>
+#endif
 
 #include "../../bdvm/include/Bytecode.hpp"
 #include "../../bdvm/include/Types.hpp"
