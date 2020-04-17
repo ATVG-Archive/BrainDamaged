@@ -8,7 +8,10 @@
 #include <iostream>
 #include <vector>
 #include <stdio.h>
+
+#ifdef linux
 #include <libgen.h>
+#endif
 
 #include "Bytecode.hpp"
 #include "Types.hpp"

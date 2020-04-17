@@ -3,10 +3,15 @@
 #include "../include/BrainDamagedVM.hpp"
 
 int main(int argc, char* argv[]) {
-    std::printf("BrainDamagedVM (v0.3.0)\n");
-    if(argc != 2) {
-        std::printf("Usage: %s <filename>", basename(argv[0]));
-        exit(1);
+    std::printf("BrainDamagedVM (v0.4.0)\n");
+    if(argc < 2 || argc > 3) {
+    #ifdef linux
+        std::printf("Usage: %s [-d] <filename>", basename(argv[0]));
+    #endif
+    #ifdef _WIN32
+        std::printf("Usage: BrainDamagedVM.exe [-d] <filename>");
+    #endif
+        return 1;
     }
 
     std::vector<i32> data;
