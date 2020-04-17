@@ -7,7 +7,7 @@
 #include "../include/BrainDamagedAssembler.hpp"
 
 int main(int argc, char* argv[]) {
-    std::printf("BrainDamagedAssembler (v0.1.0)\n");
+    std::printf("BrainDamagedAssembler (v0.2.0)\n");
     if(argc < 2 || argc > 3) {
     #ifdef linux
         std::printf("Usage: %s [-v] <filename>", basename(argv[0]));

@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2020-04-17
 ### Added
 - Support for Windows (TODO: Make the Program name output dynamic just like on Linux)
 
