@@ -60,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # <a name="bdc"></a>BrainFuckCompiler
 
 ## [Unreleased]
+## [0.1.0] - 2020-04-17
 ### Added
 - Tried to do a first implementation (It is more complicated then though xD)
 - We now have the basic commands except for `[]` 
