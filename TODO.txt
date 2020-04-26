@@ -1,0 +1,22 @@
+These changes must happen, as they seem important.
+
+* Move from 32-bit to 8-bit instructions
+* Make all Jumps jump static in code
+* Add proper instructions (looking at x86 and amd64)
+* Add registers (again, x86 and amd64)
+* Add 64-bit stack (for floats)
+* Abstract Bytecode to now have hex and dec bytecode values
+  * This must be easy enough to extremely simplify the assembler
+* Add jump support to BrainFuck compiler to finalize
+* Section/Label definitions
+* Section calls
+* Label jumps
+
+Maybe this would be nice.
+
+* Proper cross-Unix support. Run on Linux (GNU and LLVM; Gentoo, Ubuntu, Debian, RHEL), *BSD, (Darwin?)
+
+For far far future.
+
+* Simplest possible Lua to Bytecode compiler.
+* Simplest possible own language to Bytecode compiler.
