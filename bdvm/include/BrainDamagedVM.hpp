@@ -48,8 +48,8 @@ class BrainDamagedVM {
     void dumpMemory();
 
     // VM Utils
-    bool exitOnInvalidSP(std::string instName);
     void pop(const i32 i);
+    bool exitOnInvalidSP(const std::string& instName, const bool strict);
 
 public:
     BrainDamagedVM();
