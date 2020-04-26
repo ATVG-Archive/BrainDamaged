@@ -408,9 +408,12 @@ void BrainDamagedVM::doPrimitive() {
                     if(a == NEW_LINE || b == NEW_LINE || c == NEW_LINE) {
                         sp++;
                         memory[sp] = TXT_END;
+
+                        free(buf);
                         break;
                     }
                 }
+                free(buf);
             } catch (std::exception &e) {
                 if(debug) {
                     std::cout << e.what() << std::endl;
