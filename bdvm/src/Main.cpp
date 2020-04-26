@@ -1,33 +1,49 @@
 #include <fstream>
+#include <cxxopts.hpp>
 
 #include "../include/BrainDamagedVM.hpp"
 
+#define VERSION "0.5.0"
+
 int main(int argc, char* argv[]) {
-    std::printf("BrainDamagedVM (v0.4.0)\n");
-    if(argc < 2 || argc > 3) {
-    #ifdef linux
-        std::printf("Usage: %s [-d] <filename>", basename(argv[0]));
-    #endif
-    #ifdef _WIN32
-        std::printf("Usage: BrainDamagedVM.exe [-d] <filename>");
-    #endif
+    std::printf("BrainDamagedVM (v%s)\n", VERSION);
+
+    cxxopts::Options options("BrainDamagedVM", "A 32-bit Bytecode Virtual Machine");
+    options.add_options()
+            ("f,file", "Input File", cxxopts::value<std::string>())
+            ("d,debug", "Enable Debug output", cxxopts::value<bool>()->default_value("false"))
+            ("v,version", "Print Version")
+            ("h,help", "Print usage")
+    ;
+
+    auto args = options.parse(argc, argv);
+
+    if (args.count("help"))
+    {
+        std::cout << options.help() << std::endl;
+        exit(0);
+    }
+
+    if(args.count("version")) {
+        std::printf("Version %s\n", VERSION);
+        return 0;
+    }
+
+    if(!args.count("file")) {
+        std::cout << options.help() << std::endl;
+        std::cerr << "Missing file parameter, -f or --file must be specified" << std::endl;
         return 1;
     }
+
+    std::string filename;
+    filename = args["file"].as<std::string>();
 
     std::vector<i32> data;
     try {
         std::ifstream inFile;
         size_t size = 0;
 
-        // TODO: Remove this
-        if (argc == 3 && std::string(argv[1]) == "-d") {
-            inFile.open(argv[2], std::ios::in | std::ios::binary | std::ios::ate);
-        }
-
-        // TODO: Remove this
-        if (argc == 2 && std::string(argv[1]) != "-d") {
-            inFile.open(argv[1], std::ios::in | std::ios::binary | std::ios::ate);
-        }
+        inFile.open(filename, std::ios::in | std::ios::binary | std::ios::ate);
 
         i32* rawData = 0;
         inFile.seekg(0, std::ios::end);
@@ -44,22 +60,15 @@ int main(int argc, char* argv[]) {
         for(size_t i = 0; i < isize; i++) {
             data.push_back(rawData[i]);
         }
+
+        free(rawData);
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
 
     BrainDamagedVM vm;
     vm.loadProgram(data);
-
-    // TODO: Remove this
-    if (argc == 3 && std::string(argv[1]) == "-d") {
-        vm.setDebug(true);
-    }
-
-    // TODO: Remove this
-    if (argc == 2 && std::string(argv[1]) != "-d") {
-        vm.setDebug(false);
-    }
+    vm.setDebug(args["debug"].as<bool>());
     vm.run();
 
     return 0;
