@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Correctly SP out of bounds errors
+
 ## [0.4.0] - 2020-04-17
 ### Added
 - Support for Windows (TODO: Make the Program name output dynamic just like on Linux)
@@ -64,5 +67,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Tried to do a first implementation (It is more complicated then though xD)
 - We now have the basic commands except for `[]` 
-- Optional VM commands with `-x` (Currently no Extensions due to removal of DBG and DDM bytecode)
+- Optional VM commands with `-x` (Currently no Extensions due to removal of DBG and DDM Bytecode)
 - Support for Windows (TODO: Make the Program name output dynamic just like on Linux)
