@@ -24,12 +24,22 @@
 #define NEW_LINE 0x0000000a
 
 class BrainDamagedVM {
+    // Program Counter
     i32 pc = PC_BEGIN;
+    // Stack Pointer
     i32 sp = 0;
+
+    // Unified Memory, 0 to STACK_MAX is stack; PC_BEGIN to memroy.size() is program code
     std::vector<i32> memory;
+
+    // Current Instruction Type
     i32 typ = 0;
+    // Current Instruction Data
     i32 dat = 0;
-    i32 running = 1;
+
+    // VM Running State
+    bool running = 1;
+    // VM Debug state
     bool debug = 0;
 
     // Instruction = 0xFFcccccc where FF = Instruction and cccccc = Data
