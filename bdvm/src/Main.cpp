@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
             ("h,help", "Print usage")
     ;
 
-    auto args = options.parse(argc, argv);
+    const auto args = options.parse(argc, argv);
 
     if (args.count("help"))
     {
@@ -35,8 +35,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::string filename;
-    filename = args["file"].as<std::string>();
+    const std::string filename = args["file"].as<std::string>();
+    const bool debug = args["debug"].as<bool>();
 
     std::vector<i32> data;
     try {
@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
 
     BrainDamagedVM vm;
     vm.loadProgram(data);
-    vm.setDebug(args["debug"].as<bool>());
+    vm.setDebug(debug);
     vm.run();
 
     return 0;
