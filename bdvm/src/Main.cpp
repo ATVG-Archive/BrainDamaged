@@ -1,6 +1,6 @@
 #include <fstream>
-#include <cxxopts.hpp>
 
+#include "../../lib/include/cxxopts.hpp"
 #include "../include/BrainDamagedVM.hpp"
 
 #define VERSION "0.5.0"
