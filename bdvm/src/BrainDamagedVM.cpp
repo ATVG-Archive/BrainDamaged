@@ -37,8 +37,7 @@ void BrainDamagedVM::decode() {
 
 void BrainDamagedVM::execute() {
     if (typ == 0 || typ == 2) {
-        sp++;
-        memory[sp] = dat;
+        memory[++sp] = dat;
     } else {
         doPrimitive();
     }
@@ -131,8 +130,7 @@ void BrainDamagedVM::doPrimitive() {
             // Exit VM when SP gets out of bounds
             if (exitOnInvalidSP("DUP", true)) break;
 
-            i = memory[sp];
-            sp++;
+            i = memory[sp++];
             memory[sp] = i;
 
             break;
@@ -147,7 +145,7 @@ void BrainDamagedVM::doPrimitive() {
             j = memory[sp];
             pop(1);
 
-            i = memory[pc+1];
+            i = memory[++pc];
             i32 type;
             type = getType(i);
 
@@ -158,7 +156,6 @@ void BrainDamagedVM::doPrimitive() {
                 running = false;
                 break;
             }
-            pc++;
 
             if(debug) {
                 std::printf("CON: %d; SKIP: %d", j, i);
@@ -179,7 +176,7 @@ void BrainDamagedVM::doPrimitive() {
             j = memory[sp];
             pop(1);
 
-            i = memory[pc+1];
+            i = memory[++pc];
             type = getType(i);
 
             // Check if next item on the program stack is a jumpable location
@@ -189,7 +186,6 @@ void BrainDamagedVM::doPrimitive() {
                 running = 0;
                 break;
             }
-            pc++;
 
             if(debug) {
                 std::printf("CON: %d; SKIP: %d", j, i);
@@ -263,7 +259,7 @@ void BrainDamagedVM::doPrimitive() {
             // Exit VM when SP gets out of bounds
             if (exitOnInvalidSP("JMP", true)) break;
 
-            i = memory[pc+1];
+            i = memory[++pc];
             type = getType(i);
 
             // Check if next item on the program stack is a jumpable location
@@ -273,7 +269,6 @@ void BrainDamagedVM::doPrimitive() {
                 running = false;
                 break;
             }
-            pc++;
 
             // Jump
             pc += i;
@@ -467,10 +462,11 @@ void BrainDamagedVM::pop(const i32 i) {
         running = false;
         return;
     }
-    while (i > 0) {
+    i32 j = i;
+    while (j > 0) {
         memory[sp] = 0;
         sp--;
-        i++;
+        j++;
     }
 }
 
