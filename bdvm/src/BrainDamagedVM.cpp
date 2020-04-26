@@ -16,13 +16,13 @@ BrainDamagedVM::BrainDamagedVM() {
     }
 }
 
-i32 BrainDamagedVM::getType(i32 instruction) {
+const i32 BrainDamagedVM::getType(const i32 instruction) {
     i32 type = 0xc0000000;
     type = (type & instruction) >> 30;
     return type;
 }
 
-i32 BrainDamagedVM::getData(i32 instruction) {
+const i32 BrainDamagedVM::getData(const i32 instruction) {
     i32 data = 0x3fffffff;
     data = data & instruction;
     return data;
@@ -463,7 +463,7 @@ void BrainDamagedVM::doPrimitive() {
     }
 }
 
-void BrainDamagedVM::pop(i32 i) {
+void BrainDamagedVM::pop(const i32 i) {
     if (sp <= 0) {
         std::cout << "BrainDamagedVM:: Cannot remove from Stack with SP <= 0" << std::endl;
         running = false;
@@ -524,7 +524,7 @@ void BrainDamagedVM::run() {
     }
 }
 
-void BrainDamagedVM::loadProgram(std::vector<i32> prog) {
+void BrainDamagedVM::loadProgram(const std::vector<i32> prog) {
     if(prog.size() <= 0) {
         std::cerr << "BrainDamagedVM:: Bytecode cannot be of length 0 or less!" << std::endl;
     }
@@ -533,7 +533,7 @@ void BrainDamagedVM::loadProgram(std::vector<i32> prog) {
     }
 }
 
-i32 BrainDamagedVM::packChars(const i32 c1, const i32 c2, const i32 c3) {
+const i32 BrainDamagedVM::packChars(const i32 c1, const i32 c2, const i32 c3) {
     i32 i = (c1 << 16);
     i = i | (c2 << 8);
     i = i | c3;

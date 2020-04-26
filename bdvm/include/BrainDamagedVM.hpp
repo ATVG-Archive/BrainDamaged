@@ -34,27 +34,27 @@ class BrainDamagedVM {
     bool debug = 0;
 
     // Instruction = 0xFFcccccc where FF = Instruction and cccccc = Data
-    i32 getType(i32 instruction);
-    i32 getData(i32 instruction);
+    const i32 getType(const i32 instruction);
+    const i32 getData(const i32 instruction);
 
     void fetch();
     void decode();
     void execute();
     void doPrimitive();
 
-    i32 packChars(const i32 c1, const i32 c2, const i32 c3);
+    const i32 packChars(const i32 c1, const i32 c2, const i32 c3);
     void unpackChars(const i32 i, i32& c1, i32& c2, i32& c3);
 
     void dumpMemory();
 
     // VM Utils
-    void pop(i32 i);
     bool exitOnInvalidSP(std::string instName);
+    void pop(const i32 i);
 
 public:
     BrainDamagedVM();
     void run();
-    void loadProgram(std::vector<i32> prog);
+    void loadProgram(const std::vector<i32> prog);
     void setDebug(const bool value) {
         debug = value;
     }
