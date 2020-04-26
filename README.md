@@ -14,12 +14,14 @@ Version: 0.3.0
 ## Architecture
 
 * All Instructions are 32-Bit.
-* Maximum Stack size is 4096 variables (4096 * 30 bits)
-* Maximum Program size is 995_904 instructions
+* Maximum Stack size is 4096 variables (4096 * 32 bits ~= 16KB)
+* Maximum Program size is dynamic with no upper limits, the default allocation is 4096 (4096 * 32 bits ~= 16KB)
 
-+ This VM has a Memory size from at least 4 MB.
-  * ~15.36 KB are addressable Stack memory
-  * ~3.983 MB are program code memory
++ This VM has a Memory size from at least 32 KB.
+  * ~16 KB is addressable Stack memory
+  * ~16 KB is at least program code memory
+
+Observing the Memory on Linux, we use about 1721 KB with a 3 instruction program (0x01, RSI, HLT).
 
 ## Instruction Set
 
