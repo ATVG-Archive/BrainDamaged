@@ -16,7 +16,10 @@
 #include "Bytecode.hpp"
 #include "Types.hpp"
 
-#define MEMROY_SIZE 1000000
+// Default memory limit (This extends to upper based on program size)
+#define MEMORY_SIZE 8192
+// This is the maximum count of Stack locations, after this, the Program Code starts
+#define STACK_MAX 4095
 #define PC_BEGIN 4096
 #define IN_BYTE_MAX 1024
 

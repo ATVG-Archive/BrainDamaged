@@ -6,14 +6,12 @@
 
 BrainDamagedVM::BrainDamagedVM() {
     // Resize memory to allocate space
-    memory.resize(MEMROY_SIZE);
+    memory.resize(MEMORY_SIZE);
     // Make sure the space is reserved
-    memory.reserve(MEMROY_SIZE);
+    memory.reserve(MEMORY_SIZE);
 
-    // Initialize Stack memory with 0 to prevent UB (Undefined Behavior)
-    for(i32 i = 0; i < PC_BEGIN; i++) {
-        memory[i] = 0;
-    }
+    // Clear possible random data from memory to prevent UB (Undefined Behavior)
+    memory.clear();
 }
 
 const i32 BrainDamagedVM::getType(const i32 instruction) {
@@ -540,6 +538,27 @@ void BrainDamagedVM::loadProgram(const std::vector<i32> prog) {
     if(prog.size() <= 0) {
         std::cerr << "BrainDamagedVM:: Bytecode cannot be of length 0 or less!" << std::endl;
     }
+
+    // Check if the program to load exceeds the current memory size.
+    // For the check to only account for Program Size, we have to subtract the STACK_MAX from the memory size
+    // As from 0 to STACK_MAX the stack is located in unified memory
+    if(prog.size() > (memory.size() - STACK_MAX)) {
+        // Clear the memory before resize
+        memory.clear();
+
+        // Resize to new memory space
+        memory.resize(STACK_MAX + prog.size());
+
+        // Reserve the new memory space
+        memory.reserve(STACK_MAX + prog.size());
+
+        // Make sure there is no random data
+        memory.clear();
+    }
+
+    // Reset the Program Counter to its start
+    pc = PC_BEGIN;
+
     for (i32 i = 0; i < prog.size(); i++) {
         memory[pc + i] = prog[i];
     }
