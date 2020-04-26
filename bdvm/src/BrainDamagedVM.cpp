@@ -465,11 +465,21 @@ void BrainDamagedVM::pop(const i32 i) {
         running = false;
         return;
     }
-    i32 j = i;
-    while (j > 0) {
-        memory[sp] = 0;
-        sp--;
-        j++;
+    if (i >= STACK_MAX) {
+        std::printf("BrainDamagedVM:: Cannot remove %d elements from Stack with max size %d\n", i, STACK_MAX);
+        running = false;
+        return;
+    }
+
+    for(i32 j = i; j > 0; j--) {
+        if (sp <= 0) {
+            std::cout << "BrainDamagedVM:: Cannot remove from Stack with SP <= 0" << std::endl;
+            running = false;
+            return;
+        }
+
+        memory[sp--] = 0;
+        j--;
     }
 }
 
