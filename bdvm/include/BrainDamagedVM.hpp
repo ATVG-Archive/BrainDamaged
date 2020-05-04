@@ -63,7 +63,7 @@ class BrainDamagedVM {
 public:
     BrainDamagedVM();
     void run();
-    void loadProgram(const std::vector<i32> prog);
+    void loadProgram(const std::vector<i32>& prog);
     void setDebug(const bool value) {
         debug = value;
     }

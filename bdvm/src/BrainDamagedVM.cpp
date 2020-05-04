@@ -567,8 +567,8 @@ void BrainDamagedVM::run() {
     }
 }
 
-void BrainDamagedVM::loadProgram(const std::vector<i32> prog) {
-    if(prog.size() <= 0) {
+void BrainDamagedVM::loadProgram(const std::vector<i32>& prog) {
+    if(prog.empty()) {
         std::cerr << "BrainDamagedVM:: Bytecode cannot be of length 0 or less!" << std::endl;
     }
 
