@@ -51,10 +51,10 @@ class BrainDamagedVM {
     void execute();
     void doPrimitive();
 
-    const i32 packChars(const i32 c1, const i32 c2, const i32 c3);
-    void unpackChars(const i32 i, i32& c1, i32& c2, i32& c3);
 
     void dumpMemory();
+    static i32 packChars(const i32 c1, const i32 c2, const i32 c3);
+    static void unpackChars(const i32 i, i32& c1, i32& c2, i32& c3);
 
     // VM Utils
     void pop(const i32 i);

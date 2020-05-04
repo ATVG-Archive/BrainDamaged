@@ -573,7 +573,7 @@ void BrainDamagedVM::loadProgram(const std::vector<i32> prog) {
     }
 }
 
-const i32 BrainDamagedVM::packChars(const i32 c1, const i32 c2, const i32 c3) {
+i32 BrainDamagedVM::packChars(const i32 c1, const i32 c2, const i32 c3) {
     i32 i = (c1 << 16);
     i = i | (c2 << 8);
     i = i | c3;
