@@ -160,7 +160,7 @@ void BrainDamagedVM::doPrimitive() {
             }
 
             if(debug) {
-                std::printf("CON: %d; SKIP: %d", j, i);
+                std::printf("CON: %s; SKIP: %d", j == 1 ? "true" : "false", i);
             }
 
             if(j == 1) {
@@ -185,12 +185,12 @@ void BrainDamagedVM::doPrimitive() {
             if(type != 0 && type != 2) {
                 dumpMemory();
                 std::cerr << "BrainDamagedVM:: Cannot jump to non-integer relative location" << std::endl;
-                running = 0;
+                running = false;
                 break;
             }
 
             if(debug) {
-                std::printf("CON: %d; SKIP: %d", j, i);
+                std::printf("CON: %s; SKIP: %d", j == 0 ? "true" : "false", i);
             }
 
             if(j == 0) {
@@ -208,6 +208,10 @@ void BrainDamagedVM::doPrimitive() {
             i = memory[sp-1];
             j = memory[sp];
             pop(1);
+
+            if(debug) {
+                printf("Compare: (%d == %d) => %s", i, j, i == j ? "true" : "false");
+            }
 
             memory[++sp] = (int)(i == j);
             break;
