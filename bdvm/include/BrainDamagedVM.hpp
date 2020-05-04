@@ -51,8 +51,6 @@ class BrainDamagedVM {
     void execute();
     void doPrimitive();
 
-
-    void dumpMemory();
     static i32 packChars(const i32 c1, const i32 c2, const i32 c3);
     static void unpackChars(const i32 i, i32& c1, i32& c2, i32& c3);
 
@@ -67,6 +65,8 @@ public:
     void setDebug(const bool value) {
         debug = value;
     }
+
+    void dumpMemory();
 };
 
 #endif //BRAINDAMAGED_BRAINDAMAGEDVM_HPP

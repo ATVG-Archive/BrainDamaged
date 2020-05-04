@@ -69,7 +69,13 @@ int main(int argc, char* argv[]) {
     BrainDamagedVM vm;
     vm.loadProgram(data);
     vm.setDebug(debug);
-    vm.run();
+
+    try {
+        vm.run();
+    } catch (std::exception &e) {
+        puts(e.what());
+        vm.dumpMemory();
+    }
 
     return 0;
 }
