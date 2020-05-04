@@ -36,8 +36,10 @@ void BrainDamagedVM::decode() {
 }
 
 void BrainDamagedVM::execute() {
+    // TODO: Remove this if as we no longer support direct loading of integers
     if (typ == 0 || typ == 2) {
-        memory[++sp] = dat;
+        // We will leave this for now so that the executor does not face normal integers
+        return;
     } else {
         doPrimitive();
     }
@@ -305,6 +307,28 @@ void BrainDamagedVM::doPrimitive() {
                     break;
                 }
             }
+            break;
+        case 21: // LDI
+            if(debug) {
+                std::cout << "LDI" << std::endl;
+            }
+
+            // Exit VM when SP gets out of bounds
+            if(exitOnInvalidSP("LDI", false)) break;
+
+            i = memory[++pc];
+            type = getType(i);
+
+            // Check if next item on the program stack is a jumpable location
+            if(type != 0 && type != 2) {
+                dumpMemory();
+                std::cerr << "BrainDamagedVM:: Cannot load non-integer into stack" << std::endl;
+                running = false;
+                break;
+            }
+
+            memory[sp] = i;
+
             break;
         case 81: // psi (Print Stack Integer)
             if(debug) {
