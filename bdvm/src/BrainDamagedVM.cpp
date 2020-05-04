@@ -485,11 +485,13 @@ void BrainDamagedVM::doPrimitive() {
 
 void BrainDamagedVM::pop(const i32 i) {
     if (sp <= 0) {
+        dumpMemory();
         std::cout << "BrainDamagedVM:: Cannot remove from Stack with SP <= 0" << std::endl;
         running = false;
         return;
     }
     if (i >= STACK_MAX) {
+        dumpMemory();
         std::printf("BrainDamagedVM:: Cannot remove %d elements from Stack with max size %d\n", i, STACK_MAX);
         running = false;
         return;
@@ -497,6 +499,7 @@ void BrainDamagedVM::pop(const i32 i) {
 
     for(i32 j = i; j > 0; j--) {
         if (sp <= 0) {
+            dumpMemory();
             std::cout << "BrainDamagedVM:: Cannot remove from Stack with SP <= 0" << std::endl;
             running = false;
             return;
