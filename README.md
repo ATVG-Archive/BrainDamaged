@@ -52,7 +52,7 @@ Observing the Memory on Linux, we use about 1721 KB with a 3 instruction program
 | SPI | 0x40000012 | - | Increments sp | (sp++) | 0.3.0 |
 | SPD | 0x40000013 | - | Decrements sp | (sp--) | 0.3.0 |
 | SPC | 0x40000014 | - | Resets sp | (sp = first non-null location from end of stack) | 0.3.0 |
-| LDI | 0x40000015 | - | Adds a value to the stack | Puts value on tos (sp++) | 0.5.0 |
+| LDI | 0x40000015 | 1 | Adds a value to the stack | Puts value on tos (sp++) | 0.5.0 |
 | - | - | - | - | - | - |
 | PSI | 0x40000051 | - | Prints tos as Int to stdout | POPs tos (sp--) | 0.1.0 |
 | PSC | 0x40000052 | - | Prints tos as ASCII Char to stdout | POPs tos (sp--) | 0.1.0 |
