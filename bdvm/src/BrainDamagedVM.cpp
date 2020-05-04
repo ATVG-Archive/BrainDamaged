@@ -208,7 +208,8 @@ void BrainDamagedVM::doPrimitive() {
             i = memory[sp-1];
             j = memory[sp];
             pop(1);
-            memory[sp] = (int)(i == j);
+
+            memory[++sp] = (int)(i == j);
             break;
         case 13: // POP
             if(debug) {
@@ -362,8 +363,7 @@ void BrainDamagedVM::doPrimitive() {
 
             try {
                 scanf(" %d", &i);
-                sp++;
-                memory[sp] = i;
+                memory[++sp] = i;
             } catch (const std::exception &e) {
                 if(debug) {
                     std::cout << e.what() << std::endl;
@@ -381,8 +381,7 @@ void BrainDamagedVM::doPrimitive() {
             try {
                 char c;
                 scanf(" %c", &c);
-                sp++;
-                memory[sp] = (int) c;
+                memory[++sp] = (int) c;
             } catch (const std::exception &e) {
                 if(debug) {
                     std::cout << e.what() << std::endl;
@@ -406,8 +405,7 @@ void BrainDamagedVM::doPrimitive() {
 
                 i32 a,b,c;
 
-                sp++;
-                memory[sp] = TXT_BEGIN;
+                memory[++sp] = TXT_BEGIN;
 
                 for(i = 2; i < IN_BYTE_MAX; i+=3) {
                     if(i-2 <= IN_BYTE_MAX) {
@@ -426,12 +424,10 @@ void BrainDamagedVM::doPrimitive() {
                         c = 0x00;
                     }
 
-                    sp++;
-                    memory[sp] = packChars(a, b, c);
+                    memory[++sp] = packChars(a, b, c);
 
                     if(a == NEW_LINE || b == NEW_LINE || c == NEW_LINE) {
-                        sp++;
-                        memory[sp] = TXT_END;
+                        memory[++sp] = TXT_END;
 
                         free(buf);
                         break;
