@@ -47,10 +47,10 @@ i32 BrainDamagedAssembler::compile() {
             continue;
         }
 
+        // TODO: Remove this if as we no longer support direct loading of integers
         if(ins.starts_with("0x0") || ins.starts_with("0x1")) {
-            i32 value = stoi(line, nullptr, 16);
-            if(debug) std::printf("LDI: 0x%08x\n", value); \
-            instructions.push_back(value);
+            // Just skip this as we no longer support direct loading, LDI inst should be used instead
+            puts("WARNING: Direct loading of Integer valus is no longer supported! Please use the LDI instruction.");
             continue;
         }
 
@@ -88,6 +88,7 @@ i32 BrainDamagedAssembler::compile() {
 
         INSTV("JNE", JNE, value)
         INSTV("JMP", JMP, value)
+        INSTV("LDI", LDI, value)
 
         /// One-Parameter 2 Char Bytecode
         ins = line.substr(0,2);

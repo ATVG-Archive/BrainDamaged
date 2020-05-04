@@ -23,6 +23,7 @@
 #define SPI 0x40000012
 #define SPD 0x40000013
 #define SPC 0x40000014 // Sets SP to 0
+#define LDI 0x40000015
 #define PSI 0x40000051
 #define PSC 0x40000052
 #define RSI 0x40000053
