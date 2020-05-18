@@ -1,4 +1,5 @@
 set(CURRENT_TARGET "BDVM")
+set(OUTPUT_NAME bdvm)
 
 message(STATUS "\nConfiguring target ${CURRENT_TARGET}...")
 
@@ -12,7 +13,14 @@ message(STATUS "${CURRENT_TARGET} include directory: ${BDVM_INCLUDE_DIR}")
 add_definitions(-DQT_NO_FOREACH)
 
 set_target_properties(${CURRENT_TARGET} PROPERTIES PREFIX "")
-set_target_properties(${CURRENT_TARGET} PROPERTIES OUTPUT_NAME "bdvm")
+set_target_properties(${CURRENT_TARGET} PROPERTIES OUTPUT_NAME "${OUTPUT_NAME}")
+
+target_link_libraries(${CURRENT_TARGET}
+PRIVATE
+    fmt
+    cxxopts
+    libbdvm_interface
+)
 
 target_include_directories(${CURRENT_TARGET}
 PRIVATE

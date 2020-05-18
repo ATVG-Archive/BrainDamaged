@@ -23,6 +23,40 @@ Version: 0.5.0
 
 Observing the Memory on Linux, we use about 1721 KB with a 3 instruction program (0x01, RSI, HLT).
 
+## Building
+
+We expect this to build and run on these OS Configurations, this however is not guaranteed:
+
+| OS | Version | Arch | Toolkit |
+|-----|--------|------|---------|
+| Linux | \>= 2.6.11 | amd64 | LLVM 9 |
+| Windows | \>= 10 (1909) | amd64 | MSVC 14 |
+
+Steps:
+1. Get Source Code
+2. Get Submodules
+3. Build
+
+#### Get Source Code
+
+```
+$ git clone https://gitlab.atvg-studios.com/atvg-studios/braindamaged
+$ cd braindamaged
+```
+
+#### Get Submodules
+
+```
+$ git submodule init
+```
+
+#### Build
+
+```
+$ mkdir build && cd build
+$ cmake .. && make
+```
+
 ## Instruction Set
 
 * pc = Program Counter (Current executing Instruction)

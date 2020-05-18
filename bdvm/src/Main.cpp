@@ -1,14 +1,14 @@
 #include <fstream>
 
-#include "../../lib/include/cxxopts.hpp"
+#include <cxxopts.hpp>
 #include "../include/BrainDamagedVM.hpp"
 
-#define VERSION "0.5.0"
+#define VERSION "0.6.0"
 
 int main(int argc, char* argv[]) {
     std::printf("BrainDamagedVM (v%s)\n", VERSION);
 
-    cxxopts::Options options("BrainDamagedVM", "A 32-bit Bytecode Virtual Machine");
+    cxxopts::Options options("BrainDamagedVM", "A 16/32-bit Bytecode Virtual Machine");
     options.add_options()
             ("f,file", "Input File", cxxopts::value<std::string>())
             ("d,debug", "Enable Debug output", cxxopts::value<bool>()->default_value("false"))
@@ -38,22 +38,22 @@ int main(int argc, char* argv[]) {
     const std::string filename = args["file"].as<std::string>();
     const bool debug = args["debug"].as<bool>();
 
-    std::vector<i32> data;
+    std::vector<instruction_t> data;
     try {
         std::ifstream inFile;
         size_t size = 0;
 
         inFile.open(filename, std::ios::in | std::ios::binary | std::ios::ate);
 
-        i32* rawData = 0;
+        instruction_t* rawData = 0;
         inFile.seekg(0, std::ios::end);
         size = inFile.tellg();
         inFile.seekg(0, std::ios::beg);
 
         // Size of actual instruction count
-        size_t isize = size  / sizeof(i32);
+        size_t isize = size  / sizeof(instruction_t);
 
-        rawData = new i32[isize];
+        rawData = new instruction_t[isize];
         inFile.read((char*)rawData, size);
         inFile.close();
 

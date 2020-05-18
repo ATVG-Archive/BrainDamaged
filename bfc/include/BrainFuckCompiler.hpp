@@ -10,22 +10,18 @@
 #include <fstream>
 #include <iostream>
 
-#ifdef linux
-#include <libgen.h>
-#endif
-
 #include "../../bdvm/include/Types.hpp"
 
 class BrainFuckCompiler {
     std::string source;
-    std::vector<i32> instructions;
+    std::vector<instruction_t> instructions;
     std::string outFilename;
     bool bdExtensions = false;
 
 public:
     void loadFile(std::string filename);
-    i32 compile();
-    void writeFile();
+    status_t compile();
+    void writeFile(const std::string& filename);
     void setBDExtensions(const bool value) {
         bdExtensions = value;
     }

@@ -58,7 +58,16 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 endif()
 
 # Set target destination for built targets
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib-static)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+##### Dependencies
+add_subdirectory(lib/fmt)
+add_subdirectory(lib/cxxopts)
+
+# Lib BrainDamagedVM
+add_subdirectory(libbdvm)
 
 # BrainDamagedVM
 add_subdirectory(bdvm)

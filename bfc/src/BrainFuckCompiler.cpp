@@ -19,7 +19,7 @@ void BrainFuckCompiler::loadFile(std::string filename) {
     }
 }
 
-i32 BrainFuckCompiler::compile() {
+status_t BrainFuckCompiler::compile() {
     for(char i : source) {
         switch (i) {
             case '.':
@@ -49,9 +49,12 @@ i32 BrainFuckCompiler::compile() {
     return 0;
 }
 
-void BrainFuckCompiler::writeFile() {
+void BrainFuckCompiler::writeFile(const std::string& filename) {
+    if(!filename.empty()) {
+        outFilename = filename;
+    }
     std::ofstream outfile(outFilename, std::ios::out | std::ios::binary);
-    outfile.write((char*)instructions.data(), instructions.size() * sizeof(i32));
+    outfile.write((char*)instructions.data(), instructions.size() * sizeof(instruction_t));
     outfile.close();
 
     std::cout << "Compiled Assembly to Bytecode. Wrote to file: " << outFilename << std::endl;

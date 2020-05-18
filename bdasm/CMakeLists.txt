@@ -19,4 +19,6 @@ PRIVATE
     "${BDASM_INCLUDE_DIR}"
 )
 
+target_link_libraries(${CURRENT_TARGET} cxxopts)
+
 message(STATUS "Configured target ${CURRENT_TARGET}.\n")

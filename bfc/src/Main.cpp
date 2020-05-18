@@ -1,33 +1,46 @@
-//
-// Created by atjontv on 4/16/20.
-//
-
+#include <cxxopts.hpp>
 #include "../include/BrainFuckCompiler.hpp"
 
+#define VERSION "0.2.0"
+
 int main(int argc, char* argv[]) {
-    std::printf("BrainFuckCompiler (v0.1.0)\n");
-    if(argc < 2 || argc > 3) {
-    #ifdef linux
-        std::printf("Usage: %s [-x] <filename>", basename(argv[0]));
-    #endif
-    #ifdef _WIN32
-        std::printf("Usage: BrainFuckCompiler.exe [-x] <filename>");
-    #endif
-        exit(1);
+    std::printf("BrainFuckCompiler (v%s)\n", VERSION);
+    cxxopts::Options options("BrainDamagedVM", "A 32-bit Bytecode Virtual Machine");
+    options.add_options()
+            ("if,ifile", "Input File", cxxopts::value<std::string>())
+            ("of,ofile", "Input File", cxxopts::value<std::string>())
+            ("enable-bdvm-extensions", "Enable BDVM Extensions to the Brainfuck Language", cxxopts::value<bool>()->default_value("false"))
+            ("v,version", "Print Version")
+            ("h,help", "Print usage")
+            ;
+
+    const auto args = options.parse(argc, argv);
+
+    if (args.count("help"))
+    {
+        std::cout << options.help() << std::endl;
+        exit(0);
     }
+
+    if(args.count("version")) {
+        std::printf("Version %s\n", VERSION);
+        return 0;
+    }
+
+    const std::string inFilename = args["ifile"].as<std::string>();
+    const std::string outFileName = args["ofile"].as<std::string>();
+
+    const bool enableExtensions = args["enable-bdvm-extensions"].as<bool>();
 
     BrainFuckCompiler compiler;
-    if(argc == 3 && std::string(argv[1]) == "-x") {
-        compiler.setBDExtensions(true);
-        compiler.loadFile(argv[2]);
-    }
+    compiler.setBDExtensions(enableExtensions);
+    compiler.loadFile(inFilename);
+    status_t s = compiler.compile();
 
-    if(argc == 2 && std::string(argv[1]) != "-x") {
-        compiler.setBDExtensions(false);
-        compiler.loadFile(argv[1]);
-    }
-    i32 s = compiler.compile();
-    compiler.writeFile();
+    if(!outFileName.empty())
+        compiler.writeFile(outFileName);
+    else
+        compiler.writeFile(std::string{});
 
     return s;
 }

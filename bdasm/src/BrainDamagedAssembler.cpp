@@ -20,47 +20,39 @@ void BrainDamagedAssembler::loadFile(std::string filename) {
 
 #define INST(CODE, BCODE) \
     if(ins == CODE) { \
-        if(debug) std::printf("%s: 0x%08x\n", CODE, BCODE); \
+        if(debug) std::printf("%04x: %s(0x%04x)\n", instructions.size(), CODE, BCODE); \
         instructions.push_back(BCODE); \
         continue; \
     }
 
 #define INSTV(CODE, BCODE, VALUE) \
     if(ins == CODE) { \
-        if(debug) std::printf("%s: 0x%08x (0x%08x)\n", CODE, BCODE, VALUE); \
+        if(debug) std::printf("%04x: %s(0x%04x) 0x%04x\n", instructions.size(), CODE, BCODE, VALUE); \
         instructions.push_back(BCODE); \
         instructions.push_back(VALUE); \
         continue; \
     }
 
-i32 BrainDamagedAssembler::compile() {
+status_t BrainDamagedAssembler::compile() {
     for (const std::string& line : source) {
         // Invalid line
-        if(line.size() < 3) {
+        if(line.size() < 3 || line.starts_with("#")) {
             continue;
         }
 
-        std::string ins = line.substr(0,3);
+        std::string ins = line.substr(0,4);
 
-        // Ignore Comments
-        if(ins.starts_with("#")) {
-            continue;
-        }
+        /// No-Parameter 3 Char Bytecode
+        INST("ADDI", ADDI)
+        INST("SUBI", SUBI)
+        INST("MULI", MULI)
+        INST("DIVI", DIVI)
 
-        // TODO: Remove this if as we no longer support direct loading of integers
-        if(ins.starts_with("0x0") || ins.starts_with("0x1")) {
-            // Just skip this as we no longer support direct loading, LDI inst should be used instead
-            puts("WARNING: Direct loading of Integer valus is no longer supported! Please use the LDI instruction.");
-            continue;
-        }
+        ins = line.substr(0,3);
 
         /// No-Parameter 3 Char Bytecode
         INST("HLT", HLT)
         INST("NOP", NOP)
-        INST("ADD", ADD)
-        INST("SUB", SUB)
-        INST("MUL", MUL)
-        INST("DIV", DIV)
         INST("DUP", DUP)
         INST("CMP", CMP)
         INST("POP", POP)
@@ -103,7 +95,7 @@ i32 BrainDamagedAssembler::compile() {
 
 void BrainDamagedAssembler::writeFile() {
     std::ofstream outfile(outFilename, std::ios::out | std::ios::binary);
-    outfile.write((char*)instructions.data(), instructions.size() * sizeof(i32));
+    outfile.write((char*)instructions.data(), instructions.size() * sizeof(instruction_t));
     outfile.close();
 
     std::cout << "Compiled Assembly to Bytecode. Wrote to file: " << outFilename << std::endl;

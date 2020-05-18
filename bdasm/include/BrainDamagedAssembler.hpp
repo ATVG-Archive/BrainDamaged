@@ -18,14 +18,14 @@
 #include "../../bdvm/include/Types.hpp"
 
 class BrainDamagedAssembler {
-    std::vector<i32> instructions;
+    std::vector<instruction_t> instructions;
     std::vector<std::string> source;
     std::string outFilename;
     bool debug;
 
 public:
     void loadFile(std::string filename);
-    i32 compile();
+    status_t compile();
     void writeFile();
     void setDebug(const bool value) {
         debug = value;

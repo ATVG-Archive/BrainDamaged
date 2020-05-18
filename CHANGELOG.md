@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- 16-Bit instead of 32-bit instructions
+- Jumps are fixed and not static
+- Memory can hold 8, 16, 32, 64 bit integers and 64 bit floats (floats are yet to be supported in instructions)
+
 ## [0.5.0] - 2020-05-04
 ### Changed
 - Many Internal changes
@@ -54,6 +59,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # <a name="bdasm"></a>BrainDamagedAssembler
 
 ## [Unreleased]
+
+### Changed
+- Store instructions as 16-Bit
+- Apply name change of basic math instructions
 
 ## [0.3.0] - 2020-05-04
 ### Changed
