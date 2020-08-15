@@ -51,22 +51,34 @@ void BrainDamagedVM::doPrimitive() {
             if (exitOnInvalidSP("ADDI", true)) break;
 
             // Check and protect against operating with non-ints
-            if(!memory[sp -1].is_i16() || !memory[sp].is_i16()) {
-                crash("Cannot ADDI on non int");
-                break;
-            }
 
             // Inline Addition
-            i = memory[sp - 1].get_i16();
-            j = memory[sp].get_i16();
+            i = 0;
+            if(memory[sp -1].is_i16()) {
+                i = memory[sp - 1].get_i16();
+            } else if(memory[sp -1].is_i32()) {
+                i = memory[sp - 1].get_i32();
+            }
+
+            j = 0;
+            if(memory[sp].is_i16()) {
+                j = memory[sp].get_i16();
+            } else if(memory[sp].is_i32()) {
+                j = memory[sp].get_i32();
+            }
 
             vo = VM_Object{};
-            vo.set_i16(i + j);
-
-            memory[sp - 1] = vo;
+            if(memory[sp].is_i32() || memory[sp--].is_i32()) {
+                vo.set_i32(i + j);
+            } else {
+                vo.set_i16(i + j);
+            }
 
             // Drop second number from stack
             pop(1);
+
+            memory[sp] = vo;
+
             break;
         case SUBI: // sub
             if(debug) {
@@ -160,8 +172,9 @@ void BrainDamagedVM::doPrimitive() {
             // Exit VM when SP gets out of bounds
             if (exitOnInvalidSP("DUP", true)) break;
 
-            vo = memory[sp++];
-            memory[sp] = vo;
+            vo = memory[sp];
+            memory[sp+1] = vo;
+            sp++;
 
             break;
         case CMP: // CMP
@@ -177,22 +190,42 @@ void BrainDamagedVM::doPrimitive() {
             pop(1);
 
             if(vo.is_i8() && vo1.is_i8()) {
+                puts("Is i8");
                 i = vo.get_i8();
                 j = vo1.get_i8();
             } else if(vo.is_i16() && vo1.is_i16()) {
+                puts("Is i16");
                 i = vo.get_i16();
                 j = vo1.get_i16();
+            } else if (vo.is_i32() && vo1.is_i32()) {
+                puts("Is i32");
+                i = vo.get_i32();
+                j = vo1.get_i32();
             } else {
-                i = -1;
-                j = -2;
+                if(vo.is_i16()) {
+                    i = vo.get_i16();
+                } else if(vo.is_i32()) {
+                    i = vo.get_i32();
+                } else {
+                    i = -1;
+                }
+
+                if(vo1.is_i16()) {
+                    j = vo1.get_i16();
+                } else if(vo1.is_i32()) {
+                    j = vo1.get_i32();
+                } else {
+                    j = -2;
+                }
             }
 
             if(debug) {
+                dumpMemory();
                 printf("Compare: (%d == %d) => %s\n", i, j, i == j ? "true" : "false");
             }
 
             vo = VM_Object{};
-            vo.set_i8((i == j ? VM_TRUE : VM_FALSE));
+            vo.set_bool(i == j);
 
             memory[++sp] = vo;
             break;
@@ -214,11 +247,8 @@ void BrainDamagedVM::doPrimitive() {
                 return;
             }
 
-            // Extract condition
-            j = vo1.get_i8();
-
             // Check if condition is 8 bit
-            if(j == -1) {
+            if(!vo1.is_bool()) {
                 crash("Cannot JE condition check with non-bool");
                 return;
             }
@@ -227,11 +257,11 @@ void BrainDamagedVM::doPrimitive() {
             i = programCode[++pc];
 
             if(debug) {
-                std::printf("CON: %s; ADDR: %d", j == VM_TRUE ? "true" : "false", i);
+                std::printf("CON: %s; ADDR: %d", vo1.get_bool() ? "true" : "false", i);
             }
 
             // Check and Jump
-            if(j == VM_TRUE) {
+            if(vo1.get_bool()) {
                 if(i < 0 || i >= programCode.size()) {
                     // TODO: Replace fmt::format with std::format when Clang stdc++ supports it
                     crash(fmt::format("Address out of bounds, cannot jump to: %08x", i));
@@ -251,14 +281,7 @@ void BrainDamagedVM::doPrimitive() {
             vo1 = memory[sp];
             pop(1);
 
-            if(!vo1.is_i8()) {
-                crash("Cannot JNE condition check with non-bool");
-                return;
-            }
-
-            j = vo1.get_i8();
-
-            if(j == -1) {
+            if(!vo1.is_bool()) {
                 crash("Cannot JNE condition check with non-bool");
                 return;
             }
@@ -266,10 +289,10 @@ void BrainDamagedVM::doPrimitive() {
             i = programCode[++pc];
 
             if(debug) {
-                std::printf("CON: %s; ADDR: %d", j == VM_FALSE ? "true" : "false", i);
+                std::printf("CON: %s; ADDR: %d", vo1.get_bool() ? "true" : "false", i);
             }
 
-            if(j == VM_FALSE) {
+            if(!vo1.get_bool()) {
                 pc = i;
             }
             break;
@@ -495,7 +518,7 @@ void BrainDamagedVM::doPrimitive() {
 
                 i32 a,b,c,d;
 
-                vo.set_i16(TXT_BEGIN);
+                vo.set_i8(TXT_BEGIN);
                 memory[++sp] = vo;
 
                 for(i = 2; i < IO_READ_BUFFER_MAX; i+=3) {
@@ -520,11 +543,12 @@ void BrainDamagedVM::doPrimitive() {
                         d = 0x00;
                     }
 
-                    vo.set_i32(packChars(a, b, c, d));
+                    LibBDVM::Chars::pack(i, a, b, c, d);
+                    vo.set_i32(i);
                     memory[++sp] = vo;
 
                     if(a == TXT_NEW_LINE || b == TXT_NEW_LINE || c == TXT_NEW_LINE) {
-                        vo.set_i16(TXT_END);
+                        vo.set_i8(TXT_END);
                         memory[++sp] = vo;
                         break;
                     }
@@ -541,43 +565,47 @@ void BrainDamagedVM::doPrimitive() {
             }
 
             // Exit VM when SP gets out of bounds
-//            if (exitOnInvalidSP("PSW", true)) break;
-//
-//            i = memory[sp].fw;
-//            pop(1);
-//            if(i == TXT_END) {
-//                std::string buf;
-//                while(memory[sp].fw != TXT_BEGIN) {
-//                    i32 a,b,c,d;
-//
-//                    vo = memory[sp];
-//
-//                    if(!vo.has32()) {
-//                        crash(fmt::format("Cannot unpack a non 32-bit integer into 4 ASCII Characters at %08x", pc));
-//                        return;
-//                    }
-//
-//                    unpackChars(vo.fw, a, b, c, d);
-//                    pop(1);
-//
-//                    if(debug) {
-//                        printf("%04d: %08x, %08x, %08x, %08x\n", sp, a, b, c, d);
-//                    }
-//
-//                    buf.push_back((char)d);
-//                    buf.push_back((char)c);
-//                    buf.push_back((char)b);
-//                    buf.push_back((char)a);
-//                }
-//
-//                std::string out;
-//
-//                for(i = buf.size(); i > 0; i--) {
-//                    out.push_back(buf[i]);
-//                }
-//
-//                std::cout << out;
-//            }
+            if (exitOnInvalidSP("PSW", true)) break;
+
+            vo = memory[sp];
+
+            if(!vo.is_i8())
+                break;
+
+            pop(1);
+            if(vo.get_i8() == TXT_END) {
+                std::string buf;
+                while(memory[sp].get_i8() != TXT_BEGIN) {
+                    i32 a,b,c,d;
+
+                    vo = memory[sp];
+
+                    if(!vo.is_i32()) {
+                        crash(fmt::format("Cannot unpack a non 32-bit integer into 4 ASCII Characters at %08x", pc));
+                        return;
+                    }
+
+                    LibBDVM::Chars::unpack(vo.get_i32(), a, b, c, d);
+                    pop(1);
+
+                    if(debug) {
+                        printf("%04d: %08x, %08x, %08x, %08x\n", sp, a, b, c, d);
+                    }
+
+                    buf.push_back((char)d);
+                    buf.push_back((char)c);
+                    buf.push_back((char)b);
+                    buf.push_back((char)a);
+                }
+
+                std::string out;
+
+                for(i = buf.size(); i > 0; i--) {
+                    out.push_back(buf[i]);
+                }
+
+                std::cout << out;
+            }
             break;
     }
 }
@@ -617,7 +645,7 @@ void BrainDamagedVM::dumpMemory() {
         line = 0;
         puts("Memory (RAM):");
 
-        auto printMem = [](const auto& i, VM_Object mem, const std::string& end) {
+        auto printMem = [=](const auto& i, VM_Object mem, const std::string& end) {
             if(mem.is_i8())
                 std::printf("%04d = (i8) %02x%s", i, mem.get_i8(), end.c_str());
             else if(mem.is_i16())

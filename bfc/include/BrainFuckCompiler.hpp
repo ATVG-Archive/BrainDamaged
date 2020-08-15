@@ -10,7 +10,8 @@
 #include <fstream>
 #include <iostream>
 
-#include "../../bdvm/include/Types.hpp"
+#include <Types.hpp>
+#include <Bytecode.hpp>
 
 class BrainFuckCompiler {
     std::string source;

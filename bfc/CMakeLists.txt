@@ -19,6 +19,6 @@ PRIVATE
     "${BFC_INCLUDE_DIR}"
 )
 
-target_link_libraries(${CURRENT_TARGET} cxxopts)
+target_link_libraries(${CURRENT_TARGET} cxxopts libbdvm_interface)
 
 message(STATUS "Configured target ${CURRENT_TARGET}.\n")

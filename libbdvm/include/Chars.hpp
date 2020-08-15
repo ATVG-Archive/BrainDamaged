@@ -2,20 +2,20 @@
 #define BRAINDAMAGED_CHARS_HPP
 
 #include "config.hpp"
-#include <cstdint>
+#include "Types.hpp"
 
 LIBBDVM_NAMESPACE_BEGIN
 
 class Chars {
 public:
-    static void pack(int32_t &out, const int32_t &a, const int32_t &b, const int32_t &c, const int32_t &d) {
+    static void pack(i32 &out, const i32 &a, const i32 &b, const i32 &c, const i32 &d) {
         out = 0;
         out = a       << 24;
         out = out | b << 16;
         out = out | c << 8;
         out = out | d;
     }
-    static void unpack(const int32_t &in, int32_t &a, int32_t &b, int32_t &c, int32_t &d) {
+    static void unpack(const i32 &in, i32 &a, i32 &b, i32 &c, i32 &d) {
         a = in >> 24 & 0xFF;
         b = in >> 16 & 0xFF;
         c = in >> 8  & 0xFF;

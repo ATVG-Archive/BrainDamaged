@@ -3,7 +3,6 @@
 //
 
 #include "../include/BrainFuckCompiler.hpp"
-#include "../../bdvm/include/Bytecode.hpp"
 
 void BrainFuckCompiler::loadFile(std::string filename) {
     std::ifstream infile(filename);

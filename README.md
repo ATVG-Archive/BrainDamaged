@@ -25,12 +25,25 @@ Observing the Memory on Linux, we use about 1721 KB with a 3 instruction program
 
 ## Building
 
-We expect this to build and run on these OS Configurations, this however is not guaranteed:
+We expect this to build and run on these OS Configurations, this however is not guaranteed.
+
+However we are willing to give corporate (simple community and complex paid) support for any modern version of the below
+OS Configurations.
+
+Definitions:
+* modern: Used version was released within the past 5 years.
 
 | OS | Version | Arch | Toolkit |
 |-----|--------|------|---------|
-| Linux | \>= 2.6.11 | amd64 | LLVM 9 |
-| Windows | \>= 10 (1909) | amd64 | MSVC 14 |
+| Linux | \>= 5.0 | amd64 | \>= LLVM 9 |
+| FreeBSD | \>= 12.1 | amd64 | \>= LLVM 8 |
+| ~~Windows~~ | ~~\>= 10 (1909)~~ | ~~amd64~~ | ~~MSVC 14~~ |
+
+Note: *Please note that BrainDamaged can be build on Windows but I will not bother to fully support all planed complicated
+features on it.* **In order to fully use BrainDamaged, make sure to run a modern Linux (Kernel >= 4.4)
+or modern Unix (specifically the BSD's)** 
+
+Note 2: *Support for SerenityOS is in planning, as soon as CMake is available on it, we will check compatibility.*
 
 Steps:
 1. Get Source Code

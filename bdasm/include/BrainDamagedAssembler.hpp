@@ -10,12 +10,8 @@
 #include <fstream>
 #include <iostream>
 
-#ifdef linux
-#include <libgen.h>
-#endif
-
-#include "../../bdvm/include/Bytecode.hpp"
-#include "../../bdvm/include/Types.hpp"
+#include <Types.hpp>
+#include <Bytecode.hpp>
 
 class BrainDamagedAssembler {
     std::vector<instruction_t> instructions;
